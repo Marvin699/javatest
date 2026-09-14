@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrsystem.mapper.DepartmentMapper">
+
+    <resultMap id="BaseResultMap" type="com.hrsystem.entity.Department">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="code" property="code"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        SELECT * FROM department ORDER BY id
+    </select>
+
+    <select id="findById" resultMap="BaseResultMap">
+        SELECT * FROM department WHERE id = #{id}
+    </select>
+
+    <select id="findByCode" resultMap="BaseResultMap">
+        SELECT * FROM department WHERE code = #{code}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO department (name, code) VALUES (#{name}, #{code})
+    </insert>
+
+    <update id="update">
+        UPDATE department SET name = #{name}, code = #{code} WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM department WHERE id = #{id}
+    </delete>
+
+</mapper>

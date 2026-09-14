@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrsystem.mapper.EmployeeMapper">
+
+    <resultMap id="BaseResultMap" type="com.hrsystem.entity.Employee">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="emp_no" property="empNo"/>
+        <result column="gender" property="gender"/>
+        <result column="position" property="position"/>
+        <result column="birth_date" property="birthDate"/>
+        <result column="department_id" property="departmentId"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="role" property="role"/>
+        <result column="create_time" property="createTime"/>
+        <result column="dept_name" property="departmentName"/>
+    </resultMap>
+
+    <sql id="selectWithDept">
+        SELECT e.*, d.name as dept_name
+        FROM employee e
+        LEFT JOIN department d ON e.department_id = d.id
+    </sql>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        <include refid="selectWithDept"/>
+        ORDER BY e.id
+    </select>
+
+    <select id="findById" resultMap="BaseResultMap">
+        <include refid="selectWithDept"/>
+        WHERE e.id = #{id}
+    </select>
+
+    <select id="findByUsername" resultMap="BaseResultMap">
+        <include refid="selectWithDept"/>
+        WHERE e.username = #{username}
+    </select>
+
+    <select id="findByDepartmentId" resultMap="BaseResultMap">
+        <include refid="selectWithDept"/>
+        WHERE e.department_id = #{departmentId}
+        ORDER BY e.id
+    </select>
+
+    <select id="search" resultMap="BaseResultMap">
+        <include refid="selectWithDept"/>
+        <where>
+            <if test="empNo != null and empNo != ''">
+                AND e.emp_no LIKE CONCAT('%', #{empNo}, '%')
+            </if>
+            <if test="gender != null and gender != ''">
+                AND e.gender = #{gender}
+            </if>
+            <if test="position != null and position != ''">
+                AND e.position LIKE CONCAT('%', #{position}, '%')
+            </if>
+        </where>
+        ORDER BY e.id
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO employee (name, emp_no, gender, position, birth_date, department_id, username, password, role)
+        VALUES (#{name}, #{empNo}, #{gender}, #{position}, #{birthDate}, #{departmentId}, #{username}, #{password}, #{role})
+    </insert>
+
+    <update id="update">
+        UPDATE employee
+        SET name = #{name}, emp_no = #{empNo}, gender = #{gender}, position = #{position},
+            birth_date = #{birthDate}, department_id = #{departmentId},
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            role = #{role}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM employee WHERE id = #{id}
+    </delete>
+
+</mapper>

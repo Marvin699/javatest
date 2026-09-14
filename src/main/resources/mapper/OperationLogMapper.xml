@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrsystem.mapper.OperationLogMapper">
+
+    <resultMap id="BaseResultMap" type="com.hrsystem.entity.OperationLog">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="operation" property="operation"/>
+        <result column="method" property="method"/>
+        <result column="params" property="params"/>
+        <result column="ip" property="ip"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        SELECT * FROM operation_log ORDER BY create_time DESC
+    </select>
+
+    <insert id="insert">
+        INSERT INTO operation_log (username, operation, method, params, ip)
+        VALUES (#{username}, #{operation}, #{method}, #{params}, #{ip})
+    </insert>
+
+</mapper>

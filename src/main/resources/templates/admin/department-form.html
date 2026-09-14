@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>部门编辑 - 人事管理系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">人事管理系统</a>
+            <div class="navbar-nav">
+                <a th:href="@{/admin/dashboard}" class="nav-link">首页</a>
+                <a th:href="@{/admin/employee/list}" class="nav-link">员工管理</a>
+                <a th:href="@{/admin/department/list}" class="nav-link active">部门管理</a>
+            </div>
+            <div class="navbar-nav ms-auto">
+                <a th:href="@{/logout}" class="btn btn-outline-light btn-sm">退出登录</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0" th:text="${department.id != null ? '编辑部门' : '添加部门'}"></h5>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="${department.id != null} ? @{/admin/department/edit} : @{/admin/department/add}" method="post">
+                            <input type="hidden" name="id" th:value="${department.id}">
+
+                            <div class="mb-3">
+                                <label class="form-label">部门名称 <span class="text-danger">*</span></label>
+                                <input type="text" name="name" class="form-control" th:value="${department.name}" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">部门编号 <span class="text-danger">*</span></label>
+                                <input type="text" name="code" class="form-control" th:value="${department.code}" required>
+                            </div>
+
+                            <div class="text-end">
+                                <a th:href="@{/admin/department/list}" class="btn btn-secondary me-2">取消</a>
+                                <button type="submit" class="btn btn-primary">保存</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
