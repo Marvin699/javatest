@@ -5,11 +5,15 @@ import com.hrsystem.entity.Employee;
 import com.hrsystem.service.DepartmentService;
 import com.hrsystem.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Controller("adminEmployeeController")
@@ -21,6 +25,11 @@ public class EmployeeController {
 
     @Autowired
     private DepartmentService departmentService;
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true));
+    }
 
     @GetMapping("/list")
     public String list(Model model) {
