@@ -2,6 +2,7 @@ package com.hrsystem.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class Employee implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -11,6 +12,7 @@ public class Employee implements Serializable {
     private String empNo;
     private String gender;
     private String position;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthDate;
     private Integer departmentId;
     private String username;
