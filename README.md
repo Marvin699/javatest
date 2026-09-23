@@ -22,21 +22,56 @@
 mysql -u root -p
 ```
 
-2. 执行SQL脚本初始化数据库
+2. 执行SQL脚本初始化数据库（推荐方式，解决编码问题）
 ```bash
-mysql -u root -p < sql/init.sql
+# 方式一：MySQL命令行中执行（推荐，指定编码）
+mysql -u root -p
 ```
-或者复制 `sql/init.sql` 的内容在MySQL命令行中执行。
+然后在MySQL命令行中执行：
+```sql
+SET NAMES utf8mb4;
+SOURCE sql/init.sql;
+```
+
+或者直接在终端执行（指定编码）：
+```bash
+# Linux/Mac
+mysql -u root -p --default-character-set=utf8mb4 < sql/init.sql
+
+# Windows PowerShell
+mysql -u root -p --default-character-set=utf8mb4 < sql/init.sql
+
+# Windows CMD
+mysql -u root -p --default-character-set=utf8mb4 < sql/init.sql
+```
 
 3. 修改数据库密码
 打开 `src/main/resources/application.yml`，把 `password: root` 改成你MySQL的实际密码。
 
-### 第二步：用IDEA打开项目
+### 第二步：运行项目
 
+#### 方式一：IDEA 运行（推荐开发调试）
 1. 打开 IntelliJ IDEA
 2. 选择 `File` → `Open` → 选择 `hr-system` 文件夹
 3. 等待Maven下载依赖（右下角进度条）
 4. 找到 `HrSystemApplication.java`，右键选择 `Run`
+
+#### 方式二：命令行运行（无需IDEA，适合部署/演示）
+```bash
+# 进入项目目录
+cd hr-system
+
+# 方式A：Maven直接运行（开发调试用）
+./mvnw spring-boot:run
+# Windows: mvnw.cmd spring-boot:run
+
+# 方式B：打包成jar后运行（生产/演示用）
+./mvnw clean package -DskipTests
+java -jar target/hr-system-1.0.0.jar
+# Windows: mvnw.cmd clean package -DskipTests && java -jar target/hr-system-1.0.0.jar
+```
+
+> **注意**：首次运行需要联网下载Maven依赖，请耐心等待。
 
 ### 第三步：访问系统
 
