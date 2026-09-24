@@ -19,7 +19,8 @@
 
 1. 启动MySQL服务
 ```bash
-mysql -u root -p
+#根据MySQL版本，可能是MySQL80，或者MySQL84
+net start mysql84;
 ```
 
 2. 执行SQL脚本初始化数据库（推荐方式，解决编码问题）
